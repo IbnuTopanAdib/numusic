@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:numusic/core/config/theme/app_theme.dart';
+import 'package:numusic/screen/splashscreen/pages/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.lighTheme,
-      home: Container(),
+      debugShowCheckedModeBanner: false,
+      home: const Splash(),
     );
   }
 }
