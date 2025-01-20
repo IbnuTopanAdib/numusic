@@ -4,6 +4,7 @@ import 'package:numusic/common/widgets/buttons/general_app_button.dart';
 import 'package:numusic/core/config/assets/app_images.dart';
 import 'package:numusic/core/config/assets/app_vectors.dart';
 import 'package:numusic/core/config/theme/app_colors.dart';
+import 'package:numusic/screen/choose_mode_screen/pages/choose_mode.dart';
 
 class Onboarding extends StatelessWidget {
   const Onboarding({super.key});
@@ -42,10 +43,19 @@ class Onboarding extends StatelessWidget {
                   fontSize: 13),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20,),
-            GeneralAppButton(onPressed: (){
-
-            }, title: 'Get Started')
+            const SizedBox(
+              height: 20,
+            ),
+            GeneralAppButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChooseMode(),
+                    ),
+                  );
+                },
+                title: 'Get Started')
           ],
         ),
       ),
