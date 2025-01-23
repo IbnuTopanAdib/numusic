@@ -8,6 +8,7 @@ import 'package:numusic/core/config/assets/app_images.dart';
 import 'package:numusic/core/config/assets/app_vectors.dart';
 import 'package:numusic/core/config/theme/app_colors.dart';
 import 'package:numusic/screen/choose_mode_screen/bloc/theme_cubit.dart';
+import 'package:numusic/screen/register_signin_screen/pages/register_sign_in.dart';
 
 class ChooseMode extends StatelessWidget {
   const ChooseMode({super.key});
@@ -64,7 +65,12 @@ class ChooseMode extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             GeneralAppButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterSignIn()));
+              },
               title: 'Continue',
             ),
           ],
