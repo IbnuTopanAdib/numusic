@@ -16,117 +16,110 @@ class ChooseMode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(40),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
         decoration: const BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(AppImages.chooseModeBackground))),
+          image: DecorationImage(
+            fit: BoxFit.fill,
+            image: AssetImage(AppImages.chooseModeBackground),
+          ),
+        ),
         child: Column(
           children: [
             Align(
-                alignment: Alignment.topCenter,
-                child: SvgPicture.asset(AppVectors.logo)),
+              alignment: Alignment.topCenter,
+              child: SvgPicture.asset(AppVectors.logo),
+            ),
             const Spacer(),
             const Text(
               'Choose Mode',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 18),
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 20,
+              ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(
-              height: 40,
-            ),
+            const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        context.read<ThemeCubit>().updateTheme(ThemeMode.light);
-                      },
-                      child: ClipOval(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: const Color(0xff30393C)
-                                  .withOpacity(0.5), // Add transparency
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.light_mode,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'Light mode',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.grey),
-                    )
-                  ],
+                _buildModeOption(
+                  context,
+                  icon: Icons.light_mode,
+                  label: 'Light mode',
+                  onTap: () {
+                    context.read<ThemeCubit>().updateTheme(ThemeMode.light);
+                  },
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        context.read<ThemeCubit>().updateTheme(ThemeMode.dark);
-                      },
-                      child: ClipOval(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: const Color(0xff30393C).withOpacity(0.5),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.dark_mode,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'Dark mode',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.grey),
-                    )
-                  ],
+                const SizedBox(width: 20),
+                _buildModeOption(
+                  context,
+                  icon: Icons.dark_mode,
+                  label: 'Dark mode',
+                  onTap: () {
+                    context.read<ThemeCubit>().updateTheme(ThemeMode.dark);
+                  },
                 ),
               ],
             ),
-            const SizedBox(
-              height: 40,
+            const SizedBox(height: 40),
+            GeneralAppButton(
+              onPressed: () {},
+              title: 'Continue',
             ),
-            GeneralAppButton(onPressed: () {}, title: 'Continue')
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildModeOption(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    final isSelected = context.watch<ThemeCubit>().state ==
+        (label == 'Light mode' ? ThemeMode.light : ThemeMode.dark);
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: isSelected ? 90 : 80,
+            height: isSelected ? 90 : 80,
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppColors.primary.withOpacity(0.7)
+                  : const Color(0xff30393C).withOpacity(0.5),
+              shape: BoxShape.circle,
+              boxShadow: isSelected
+                  ? [
+                      BoxShadow(
+                        color: AppColors.primary.withOpacity(0.4),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : [],
+            ),
+            child: Icon(
+              icon,
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: isSelected ? Colors.white : AppColors.grey,
+            ),
+          ),
+        ],
       ),
     );
   }
